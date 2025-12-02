@@ -31,9 +31,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       const db = await abrirDB();
       const tx = db.transaction('vacantes', 'readwrite');
       const store = tx.objectStore('vacantes');
-      await store.add(nuevaVacante);
-      await tx.complete;
+      const request = store.add(nuevaVacante);
+      request.onsuccess = () => {
+        // Mostrar modal de éxito solo cuando se guarda correctamente
+        mostrarModalExito();
+      };
 
+      request.onerror = (event) => {
+        console.error('Error al guardar la vacante:', event.target.error);
+        alert('Ocurrió un error al guardar la vacante');
+      };
+
+      
       // Mostrar modal de éxito
       mostrarModalExito();
       
@@ -77,4 +86,5 @@ function mostrarModalExito() {
   });
   
   document.body.appendChild(modal);
+
 }
