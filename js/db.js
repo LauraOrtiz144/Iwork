@@ -4,7 +4,7 @@ const DB_VERSION = 2; // Incrementamos la versión para agregar postulaciones
 
 export function abrirDB() {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    const request = indexedDB.open('IWorkDB', 2);
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
@@ -41,4 +41,5 @@ export function abrirDB() {
       reject(request.error);
     };
   });
+
 }
